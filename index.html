@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Blog</title>
+    <title>Money Tracker</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,77 +17,104 @@
             padding: 20px;
             text-align: center;
         }
-        nav {
-            background-color: #444;
-            color: #fff;
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 20px;
-        }
-        nav a:hover {
-            background-color: #555;
-        }
         .container {
-            max-width: 800px;
+            max-width: 600px;
             margin: 20px auto;
-            padding: 0 20px;
+            padding: 20px;
             background-color: #fff;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .post {
-            margin-bottom: 30px;
+        form {
+            margin-bottom: 20px;
         }
-        .post h2 {
-            margin-top: 0;
+        label {
+            display: block;
+            margin-bottom: 5px;
         }
-        .post p {
-            line-height: 1.6;
+        input[type="text"], input[type="number"] {
+            width: calc(100% - 12px);
+            padding: 10px;
+            margin-bottom: 10px;
         }
-        footer {
-            background-color: #333;
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
             color: #fff;
-            padding: 20px;
-            text-align: center;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>My Blog</h1>
+    <h1>Money Tracker</h1>
 </header>
 
-<nav>
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Contact</a>
-</nav>
-
 <div class="container">
-    <div class="post">
-        <h2>First Blog Post</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
-    </div>
+    <form id="expenseForm">
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+        <input type="submit" value="Add Expense">
+    </form>
 
-    <div class="post">
-        <h2>Second Blog Post</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
-    </div>
-
-    <div class="post">
-        <h2>Third Blog Post</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi.</p>
-    </div>
+    <table id="expenseTable">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Expenses will be added here dynamically -->
+        </tbody>
+    </table>
 </div>
 
-<footer>
-    &copy; 2024 My Blog
-</footer>
+<script>
+    document.getElementById('expenseForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        var description = document.getElementById('description').value;
+        var amount = parseFloat(document.getElementById('amount').value);
+
+        if (description && !isNaN(amount)) {
+            var tableBody = document.getElementById('expenseTable').getElementsByTagName('tbody')[0];
+            var newRow = tableBody.insertRow();
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            cell1.textContent = description;
+            cell2.textContent = '$' + amount.toFixed(2);
+
+            // Clear form fields
+            document.getElementById('description').value = '';
+            document.getElementById('amount').value = '';
+        } else {
+            alert('Please enter a valid description and amount.');
+        }
+    });
+</script>
 
 </body>
 </html>
